@@ -1,3 +1,60 @@
-* {
-    
+/* Custom History Component Styles */
+
+:host {
+    display: block;
+}
+
+.slds-card__body_inner {
+    padding: 0;
+}
+
+lightning-datatable {
+    width: 100%;
+}
+
+/* Pagination info styling */
+.slds-text-color_weak {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Alignment for loading spinner */
+.slds-align_absolute-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Button icon spacing */
+lightning-button-icon {
+    cursor: pointer;
+}
+
+lightning-button-icon:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Empty state message */
+.slds-text-align_center {
+    text-align: center;
+}
+
+.slds-p-around_medium {
+    padding: 1rem;
+}
+
+/* Card header styling */
+h2.slds-card__header-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.slds-media__body {
+    padding-left: 0.75rem;
+}
+
+.slds-media__figure {
+    padding-right: 0.25rem;
 }

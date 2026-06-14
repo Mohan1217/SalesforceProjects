@@ -1,65 +1,101 @@
 <template>
     <lightning-card>
+        <!-- Card Header with Icon and Pagination Info -->
         <div slot="title" class="slds-media slds-media_center">
-
             <div class="slds-media__figure">
                 <lightning-icon
                     icon-name="action:log_event"
-                    size="small">
+                    size="small"
+                    alternative-text="History">
                 </lightning-icon>
             </div>
 
             <div class="slds-media__body">
-
                 <h2 class="slds-card__header-title">
                     <span>{objectLabel} History</span>
                 </h2>
 
                 <p class="slds-text-body_small slds-text-color_weak">
-                    {recordCount} items • Sorted by Date • Updated a few seconds ago
+                    {paginationInfo} • Sorted by Date • Updated a few seconds ago
                 </p>
-
             </div>
-
         </div>
 
+        <!-- Card Actions: Refresh, Previous, Next -->
         <div slot="actions" class="slds-m-right_small">
+            <!-- Refresh Button -->
             <lightning-button-icon
                 icon-name="utility:refresh"
                 alternative-text="Refresh"
+                title="Refresh history data"
                 onclick={handleRefresh}
+                disabled={isLoading}
                 class="slds-m-right_x-small">
             </lightning-button-icon>
 
+            <!-- Previous Page Button -->
             <lightning-button-icon
                 icon-name="utility:left"
                 alternative-text="Previous"
+                title="Go to previous page"
                 onclick={handlePrevious}
                 disabled={isFirstPage}
                 class="slds-m-right_x-small">
             </lightning-button-icon>
 
+            <!-- Next Page Button -->
             <lightning-button-icon
                 icon-name="utility:right"
                 alternative-text="Next"
+                title="Go to next page"
                 onclick={handleNext}
                 disabled={isNextDisabled}>
             </lightning-button-icon>
         </div>
 
-        <template if:true={objectdata}>
-            <lightning-datatable
-                key-field="Id"
-                data={objectdata}
-                columns={columns}
-                hide-checkbox-column
-                >
-            </lightning-datatable>
-        </template>
+        <!-- Main Content Area -->
+        <div class="slds-card__body slds-card__body_inner">
+            <!-- Loading Spinner -->
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-vertical_medium">
+                    <lightning-spinner
+                        alternative-text="Loading history records"
+                        size="small">
+                    </lightning-spinner>
+                </div>
+            </template>
 
-        <template if:true={isLoading}>
-            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
-        </template>
+            <!-- History Data Table -->
+            <template if:true={objectdata}>
+                <template if:true={recordCount}>
+                    <lightning-datatable
+                        key-field="Id"
+                        data={objectdata}
+                        columns={columns}
+                        hide-checkbox-column>
+                    </lightning-datatable>
+                </template>
 
+                <!-- No Records Message -->
+                <template if:false={recordCount}>
+                    <div class="slds-text-align_center slds-p-around_medium">
+                        <p class="slds-text-body_regular slds-text-color_weak">
+                            No history records found for this object.
+                        </p>
+                    </div>
+                </template>
+            </template>
+
+            <!-- Error Message -->
+            <template if:true={error}>
+                <lightning-card variant="narrow" type="error">
+                    <div class="slds-m-around_small">
+                        <p class="slds-text-body_small slds-text-color_error">
+                            Error loading history records. Please try refreshing.
+                        </p>
+                    </div>
+                </lightning-card>
+            </template>
+        </div>
     </lightning-card>
 </template>
