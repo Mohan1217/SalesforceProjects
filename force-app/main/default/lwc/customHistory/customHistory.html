@@ -1,0 +1,65 @@
+<template>
+    <lightning-card>
+        <div slot="title" class="slds-media slds-media_center">
+
+            <div class="slds-media__figure">
+                <lightning-icon
+                    icon-name="action:log_event"
+                    size="small">
+                </lightning-icon>
+            </div>
+
+            <div class="slds-media__body">
+
+                <h2 class="slds-card__header-title">
+                    <span>{objectLabel} History</span>
+                </h2>
+
+                <p class="slds-text-body_small slds-text-color_weak">
+                    {recordCount} items • Sorted by Date • Updated a few seconds ago
+                </p>
+
+            </div>
+
+        </div>
+
+        <div slot="actions" class="slds-m-right_small">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                alternative-text="Refresh"
+                onclick={handleRefresh}
+                class="slds-m-right_x-small">
+            </lightning-button-icon>
+
+            <lightning-button-icon
+                icon-name="utility:left"
+                alternative-text="Previous"
+                onclick={handlePrevious}
+                disabled={isFirstPage}
+                class="slds-m-right_x-small">
+            </lightning-button-icon>
+
+            <lightning-button-icon
+                icon-name="utility:right"
+                alternative-text="Next"
+                onclick={handleNext}
+                disabled={isNextDisabled}>
+            </lightning-button-icon>
+        </div>
+
+        <template if:true={objectdata}>
+            <lightning-datatable
+                key-field="Id"
+                data={objectdata}
+                columns={columns}
+                hide-checkbox-column
+                >
+            </lightning-datatable>
+        </template>
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+
+    </lightning-card>
+</template>
